@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>convolutionalNetworks</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>architectures</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,7 +11775,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Les-r&#233;seaux-de-Convolution">Les r&#233;seaux de Convolution<a class="anchor-link" href="#Les-r&#233;seaux-de-Convolution">&#182;</a></h1>
+<h1 id="Diff&#233;rents-algorithmes-importants">Diff&#233;rents algorithmes importants<a class="anchor-link" href="#Diff&#233;rents-algorithmes-importants">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -11783,8 +11783,16 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Les réseaux de convolution ont été introduits dès la fin des années avec les travaux de Yann LeCun. 
-Ces derniers sont destinés au traitement de l'information organisé sous une forme de tableau 2D. Cette topologie regroupe aussi bien les images que les séries temporelles.</p>
+<h3 id="LeNet">LeNet<a class="anchor-link" href="#LeNet">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>La classification est un problème du traitement d'images où l'algorithme va reconnaitre la principale composante de l'image.</p>
+<p>C'est cette catégorie de problèmes que voulait traiter <a href==http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf> le réseau proposé par Yann Lecun </a>. Une des application était de résoudre le défi MNIST : soit la classification des nombres <code>0</code> à <code>9</code> écrits à la main.</p>
 
 </div>
 </div>
@@ -11793,7 +11801,7 @@ Ces derniers sont destinés au traitement de l'information organisé sous une fo
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Cette approche fait aujourd'hui l'unanimité pour les problèmes de traitements d'images. Son succès tient à l'ajustement des méthodes de Deep Learning aux spécificités des images.</p>
+<p><img src="http://tecmemo.wpblog.jp/wp-content/uploads/2017/03/dl_lenet-02-644x240.png" alt="leNet"></p>
 
 </div>
 </div>
@@ -11802,7 +11810,9 @@ Ces derniers sont destinés au traitement de l'information organisé sous une fo
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Dans cette partie, nous rappellerons tout d'abord la définition mathématique de l'opération de convolution. Nous expliciterons ensuite l'analogie entre la convolution mathématique et la convolution des réseaux neuronaux. Nous présentenrons alors les spécificités et le formalisme de cette approche.</p>
+<p>L'architecture utilisé est maintenant une architecture incontournable.</p>
+<p>Le réseau est consituté de 2 couches de convolution, couplées avec des couches de pooling.
+Les 3 dernières couches sont des couches de neurones densément connectés qui permettent de conclure sur la classe la plus présente dans l'image.</p>
 
 </div>
 </div>
@@ -11811,7 +11821,7 @@ Ces derniers sont destinés au traitement de l'information organisé sous une fo
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="L'op&#233;ration-de-convolution">L'op&#233;ration de convolution<a class="anchor-link" href="#L'op&#233;ration-de-convolution">&#182;</a></h2>
+<h3 id="FCN">FCN<a class="anchor-link" href="#FCN">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -11819,7 +11829,8 @@ Ces derniers sont destinés au traitement de l'information organisé sous une fo
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>L'opération de convolution est une opération bien connue notamment dans les sciences du traitement du signal. C'est cet opérateur qui régit la transformation d'un signal par un opérateur linéaire.</p>
+<p>Le problème de classification a rapidement été complété par le problème de segmentation sémantique. Le but est alors de détecter les différents objets, les segmenter, puis les identifier.</p>
+<p><img src="img/semanticSegmentation.png" alt="semanticSegmentation"></p>
 
 </div>
 </div>
@@ -11828,10 +11839,7 @@ Ces derniers sont destinés au traitement de l'information organisé sous une fo
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Mathématiquement, l'opération s'écrit comme suit :
-$$ s(t) = \int x(a)\omega(t-a)da $$</p>
-<p>Forme qu'on abrège le plus souvent par : 
-$$ s(t) = (x*\omega)(t) $$</p>
+<p>LeNet devient alors insuffisant. Il est en effet incapable d'associer à chaque pixel une classe. Il faut donc changer de paradigme.</p>
 
 </div>
 </div>
@@ -11840,8 +11848,7 @@ $$ s(t) = (x*\omega)(t) $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Dans l'ensemble de nos applications, nous travaillons dans le domaine discret, il convient donc d'adopter la notation :
-    $$ s(t) = \sum_{a=-\infty}^{\infty}x(a)\omega(t-a)   $$</p>
+<p>Un des premiers réseaux à apporter une solution était le <a href=https://arxiv.org/pdf/1411.4038.pdf> Fully Convolution Network </a> (FCN).</p>
 
 </div>
 </div>
@@ -11850,13 +11857,91 @@ $$ s(t) = (x*\omega)(t) $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>De plus, dans nous travaillerons sur des images, soit des données 2D. 
-Il convient alors de préciser l'écriture précédente :</p>
-<p>$$ S(i,j) = (I*K)(i,j) = \sum_{m} \sum_{n} I(m,n)K(i-m,j-n) $$</p>
-<p>avec:</p>
+<p>Ce dernier apportait plusieurs contibutions.</p>
+<p>Tout d'abord l'idée est de remplacer la couche finale densément connectée du réseau, par une couche convolutionnelle. Cela permet d'obtenir une carte de résultat et plus seulement une catégorie.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4><img src="http://blog.qure.ai/assets/images/segmentation-review/FCN%20-%20illustration.png" alt="FCNimage"></h4>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Mais pour obtenir des cartes de résultat pertinentes, il faut résoudre le problème de la transformation au cours des convolutions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Nous avons vu en effet que les couches de convolution transformaient l'image initiale en un contenu de plus haut niveau mais moins bien localisé. Plus concrétement, le réseau va traiter un ensemble de pixels qui définisse un chat pour en déduire la présence d'un objet chat. Cet objet est une analyse haut niveau de l'image mais sa place est inconnue.</p>
+<p>Cette caractrétique des CNN découle de la pyramide des 'field of view'. 
+Les FCN éliminent ce problème grâce à <strong>l'upsampling</strong>.</p>
+<p>Une première approche pour augmenter la résolution d'une image est d'interpoler les pixels voisins. Le pixel rajouté est alors une somme pondéré des pixels voisins.
+C'est cette même approche qui est utilisé ici. A la différence que c'est le réseau même qui apprendra à réaliser l'interpolation au travers de couches particulières, appelées <strong>deconvolutions layers</strong>.
+Une telle structure permet notamment au réseau d'apprendre les interpolations non linéaires.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="U-Net">U-Net<a class="anchor-link" href="#U-Net">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Le <a href="https://arxiv.org/pdf/1505.04597.pdf">U-Net</a> se penche sur le même problème que les <strong>FCN</strong> avec une amélioration significative sur le processus de <strong>upsampling</strong>.</p>
+<p>L'augmentation de la résolution s'opère ici d'une part grâce aux <strong>deconvolutions layers</strong> mais aussi grâce aux <strong>coarse connections</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net/u-net-architecture.png" alt="UNetimage"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Le réseau se répartit désormais en 2 parties.</p>
+<p>La branche gauche du réseau réalise des opérations de convolutions classiques. Celles-ci vont permettre d'extraire de l'image les composantes sémantiques; <em>sans</em> information de localisation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Le rôle de la branche de droite est de resituer sur une image de dimension approximativement identique à l'image de départ, l'emplacement des différents objets. 
+Ce travail sera réalisé par des couches de déconvolution, comme précédemment.</p>
+<p>La nouveauté consiste dans le fait que chaque couche de déconvolution est suivie d'une couche de convolution classique, fusionnat :</p>
 <ul>
-<li>$I$ l'entrée</li>
-<li>$K$ le kernel</li>
+<li>le résultat interpolé de la couche précédente </li>
+<li>le résultat issue de la couche symétrique sur le coté gauche</li>
 </ul>
 
 </div>
@@ -11866,8 +11951,9 @@ Il convient alors de préciser l'écriture précédente :</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Enfin, on peut remarquer que l'inversion réalisée par la convolution n'est utile que pour garantir la commutativité de l'opération. Or, en pratique, cette propriété n'est pas utile en Apprentissage Machine.
-Par conséquent, un certain nombre de librairies ont plutôt implémenté la <em>cross-correlation</em> qui n'inverse pas le kernel.</p>
+<p>Ce phénomène est notamment illustré par l'image précédente</p>
+<p>On observe tout au long de la partie gauche une modification de la taille des tenseurs. Intiallement de taille <code>572x572x1</code>, ces derniers acquièrent à la fin une taille de <code>28x28x1024</code> pour le tenseur $T_{0}$.</p>
+<p>On observe bien ici l'apparition des élèments sémantiques au détriment de l'information de localisation.</p>
 
 </div>
 </div>
@@ -11876,15 +11962,7 @@ Par conséquent, un certain nombre de librairies ont plutôt implémenté la <em
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Quelles-motivations-pour-les-r&#233;seaux-de-convolution-?">Quelles motivations pour les r&#233;seaux de convolution ?<a class="anchor-link" href="#Quelles-motivations-pour-les-r&#233;seaux-de-convolution-?">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Le succès des réseaux de convolution s'explique par trois propriétés particulières.</p>
+<p>$T_{0}$ est alors interpolé en un tenseur $T_{1}$ de dimensions <code>56x56x512</code>. On s'attend donc à ce que la couche d'interpolation replace plus finement les informations.</p>
 
 </div>
 </div>
@@ -11893,15 +11971,7 @@ Par conséquent, un certain nombre de librairies ont plutôt implémenté la <em
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Sparse-Interactions">Sparse Interactions<a class="anchor-link" href="#Sparse-Interactions">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Dans une couche d'un réseau de neurones traditionnels, toutes les unités de l'<em>input</em> sont prises en compte pour calculer l'<em>output</em>. C'est pourquoi on parle de connexions denses.</p>
+<p>Toutefois, pour corriger son travail, nous allons fusionner $T_{1}$ avec le résultat du niveau symétrique de la branche gauche, le tenseur $T_{-1}$. $T_{-1}$ porte l'information que le réseau a extrait à la résolution <code>56x56</code>.</p>
 
 </div>
 </div>
@@ -11910,7 +11980,7 @@ Par conséquent, un certain nombre de librairies ont plutôt implémenté la <em
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Dans les réseaux de convolution, la situation est différente. L'idée est ici d'utiliser des <em>kernels</em> plus petits que l'<em>input</em>. Ces derniers seront consacrés à des tâches bien particulières; ne nécessitant qu'une information locale. Ainsi, même si l'on s'intéresse à une image composée de millons de pixels, il pourrait être pertinent d'utiliser des kernels que de quelques dizaines ou centaines de pixels de bord pour détecter les bordures.</p>
+<p>Nous obtenons alors un tenseur de dimensiosn <code>1024x56x65</code> qui sera transformé après deux convolutions en un tenseur <code>512x52x52</code>, mêlant au mieux les informations locales à cette résolution et les informations sémantiques.</p>
 
 </div>
 </div>
@@ -11919,8 +11989,7 @@ Par conséquent, un certain nombre de librairies ont plutôt implémenté la <em
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Cette modélisation s'appuie donc sur la nature locale des informations contenues dans une image. Pour reconnaitre une roue, il n'y a toujours besoin de reconnaitre d'abord la voiture.
-Ce choix permet d'effectuer des gains significatifs sur la mémoire utilisée et sur le nombre de calcul réalisé.</p>
+<p>Répeter ce processus permettra de reconstituer une image finale segmentée sémantiquement.</p>
 
 </div>
 </div>
@@ -11929,7 +11998,15 @@ Ce choix permet d'effectuer des gains significatifs sur la mémoire utilisée et
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="img/sparseConnectivity.png" alt="sparseInteractions"></p>
+<h3 id="CPM">CPM<a class="anchor-link" href="#CPM">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Nous pouvons à présent nous pencher sur un nouveau problème de traitement d'images : la labelisation. Ce dernier désigne la tâche de détecter et placer précisément un élèment au sein d'une image.</p>
 
 </div>
 </div>
@@ -11938,17 +12015,7 @@ Ce choix permet d'effectuer des gains significatifs sur la mémoire utilisée et
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Parameter-sharing">Parameter sharing<a class="anchor-link" href="#Parameter-sharing">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>La notion de partage de paramètres définit la manière dont les paramètres vont être appris. Dans un réseau classique, chaque paramètre est calculé exactement une seule fois : lorsque un neurone particulier considère une entrée particulière. 
-Désormais, avec le <em>paramater sharing</em>, les paramètres sont partagés entre les différents neurones.</p>
-<p>Ainsi, dans une couche consacrée à la détection des bords, deux neurones successifs appliqueront les mêmes paramètres à leurs entrées respectives. Ils sont destinés à détecter des bords, il est donc naturel qu'ils opérent les mêmes opérations sur leurs entrées.</p>
+<p><img src="https://s1.qwant.com/thumbr/0x0/3/2/aaec6e4ea36ca57ed4190262087e04/b_1_q_0_p_0.jpg?u=http%3A%2F%2Fliris.cnrs.fr%2Fchristian.wolf%2Fgraphics%2Fanimated_handposejoints.gif&amp;q=0&amp;b=1&amp;p=0&amp;a=1" alt="CPMgif"></p>
 
 </div>
 </div>
@@ -11957,7 +12024,7 @@ Désormais, avec le <em>paramater sharing</em>, les paramètres sont partagés e
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Ce partage permet une économie très importante des puissances de calcul.</p>
+<p>Dans l'exemple ci-dessus, il est par exemple question de placer correctement les différentes parties doigts de la main.</p>
 
 </div>
 </div>
@@ -11966,7 +12033,7 @@ Désormais, avec le <em>paramater sharing</em>, les paramètres sont partagés e
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://s1.qwant.com/thumbr/0x0/a/c/ba1e79eb93de2dc3f2891b4b4f1dfc/b_1_q_0_p_0.jpg?u=http%3A%2F%2Fbamos.github.io%2Fdata%2F2016-08-09%2Fpadding_strides.gif&amp;q=0&amp;b=1&amp;p=0&amp;a=1" alt="gifConvolution"></p>
+<p>Ce problème est intimement lié au problème de segmentation sémantique. Il est également nécessaire de concilier compréhension sémantique de l'image et conservation de la taille de l'image.</p>
 
 </div>
 </div>
@@ -11975,7 +12042,8 @@ Désormais, avec le <em>paramater sharing</em>, les paramètres sont partagés e
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>L'un des avantages du parameter sharing est qu'il rend le réseau insensible aux translations dans l'espace.</p>
+<p>Mais nous soulevons ici une série de nouvelles problématiques. L'algorithme doit en effet être capable de gérer la présence et l'abscence des différents points à détecter ainsi que d'être capable de situer un élément vis à vis des autres.</p>
+<p>En effet, si nous souhaitons différencier la main droite, de la main gauche, il est nécessaire que l'algorithme replace ce point vis à vis du corps entier.</p>
 
 </div>
 </div>
@@ -11984,15 +12052,7 @@ Désormais, avec le <em>paramater sharing</em>, les paramètres sont partagés e
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Pooling">Pooling<a class="anchor-link" href="#Pooling">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>L'indépendance aux translations est un aspect fondamental des réseaux de conovolution. Il permet de vraiment se concentrer sur la présence d'un item plutôt que sur sa localisation.</p>
+<p>Les réseaux que nous avons vu précédemment, en particulier U-Net peut aborder ce problème. Toutefois l'algorithme des <a href="https://arxiv.org/pdf/1602.00134.pdf">Convolutional Pose Machine </a> a particulièrement brillé en 2016 pour résoudre ce problème.</p>
 
 </div>
 </div>
@@ -12001,7 +12061,7 @@ Désormais, avec le <em>paramater sharing</em>, les paramètres sont partagés e
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Cette nécéssité va se traduire par l'ajout d'une couche dit de <code>pooling</code>. Celle-ci va échantilloner le résultat de la couche précédente selon différentes règles. L'objectif est d'obtenir le résumé de l'information contenue dans un carré de <code>2x2</code> pixels par exemple.</p>
+<p>Cet algorithme s'appuie simultanément sur des réseaux de convolutions FCN et sur la démarche des pose machine.</p>
 
 </div>
 </div>
@@ -12010,8 +12070,7 @@ Désormais, avec le <em>paramater sharing</em>, les paramètres sont partagés e
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>On distingue en effet différentes manières de réaliser cette opération. Les plus connus sont le le max pooling, qui consiste à garder la valeur maximale de la zone; et le mean pooling qui consiste à garder la moyenne des valeurs de la zone.</p>
-<p>Mais il convient de noter qu'il existe une heuristique poussée dans le choix du pooling, en 2012, une méthode a notamment été proposé pour apprendre la fonction de pooling.</p>
+<p>Les <strong>pose machines</strong> sont un processus itératif. L'idée centrale est de combiner un algorithme de reconnaissance locale des images, avec un algorithme de compréhension globale des images.</p>
 
 </div>
 </div>
@@ -12020,7 +12079,7 @@ Désormais, avec le <em>paramater sharing</em>, les paramètres sont partagés e
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="img/pooling.png" alt="pooling"></p>
+<p>A l'étape $0$, l'algorithme local essaie de reconnaitre les différentes composantes de l'image. Il est alors difficile pour l'algorithme de placer correctement les élèments cachés entièrement ou partiellement. Il a également des difficultés à distinguer les objets similaires : poignet droit, poignet gauche.</p>
 
 </div>
 </div>
@@ -12029,19 +12088,7 @@ Désormais, avec le <em>paramater sharing</em>, les paramètres sont partagés e
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Field-of-View">Field of View<a class="anchor-link" href="#Field-of-View">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Il faut ici adopter une vision plus globale de notre réseau. En effet, le pooling et le stride amènent les couches supérieures à percevoir une zone plus grande de l'image.</p>
-<p>En effet, au niveau $n$, le pooling résume les informations contenues dans un certain nombre de valeurs, <code>4</code> si nous reprenons l'exemple précédent.
-La couche $n+1$ convoluera les valeurs contenues dans un certain espace, par exemple un carré <code>2x2</code>.</p>
-<p>Par conséquent la couche $n+1$ travaillera sur le résumé des informations de la couche précédente. Son filtre est de taille <code>2x2</code> au niveau $n+1$, mais il représente une taille <code>4x4</code> au niveau $n$.</p>
-<p>C'est ce phénomène "d'étalement" du field of view qui est représenté sur l'image suivante.</p>
+<p>A l'étape $1$, l'algorithme peut analyser à nouveau les images au niveau local, mais en disposant cette fois des résultats obtenus à l'étape $0$.</p>
 
 </div>
 </div>
@@ -12050,7 +12097,7 @@ La couche $n+1$ convoluera les valeurs contenues dans un certain espace, par exe
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://cdn-images-1.medium.com/max/2000/1*KFX5mWoRMfMme2jngak8wg.png" alt="receiptiveField"></p>
+<p>L'algorithme a alors la capacité de corréler les indices locaux pour un membre avec la présence des autres.</p>
 
 </div>
 </div>
@@ -12059,15 +12106,7 @@ La couche $n+1$ convoluera les valeurs contenues dans un certain espace, par exe
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Formalisme-math&#233;matique-de-la-convolution">Formalisme math&#233;matique de la convolution<a class="anchor-link" href="#Formalisme-math&#233;matique-de-la-convolution">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Il peut être intéressant de noter ici une différence significative entre la convolution matricielle classique et la convolution utilisée dans les réseaux de neurones.</p>
+<p><img src="https://github.com/shihenw/convolutional-pose-machines-release/raw/master/testing/python/figures/teaser-github.png" alt="CPMimage"></p>
 
 </div>
 </div>
@@ -12076,7 +12115,7 @@ La couche $n+1$ convoluera les valeurs contenues dans un certain espace, par exe
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Ainsi, l'opération de convolution dans les réseaux de neurones désigne  de multiples convolutions conventionnelles réalisées en parallèle. En effet, chaque convolution est caractérisée par un noyau dont le rôle est de détecter une caractéristique particulière. Or, nous souhaitons couramment extraire un grand nombre de caractéristiques pour chaque point de l'image d'entrée.</p>
+<p>Par exemple, on peut s'attendre à ce que l'algorithme s'aide du fait qu'il est sur d'avoir trouvé le coude droit pour en déduire l'avant bras droit et le poignet droit.</p>
 
 </div>
 </div>
@@ -12085,9 +12124,8 @@ La couche $n+1$ convoluera les valeurs contenues dans un certain espace, par exe
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>De plus, il est important de percevoir les entités à l'entrée et à la sortie de la couche, non comme des images 2D mais comme des tenseurs 3D.
-En effet, une image couleur de dimensions <code>h x w</code> correspond bien à la superposition de 3 matrices R, G et B. Nous travaillons donc dès le départ avec un tenseur <code>h x w x 3</code>. Nous désignerons désormais cette troisième dimension comme étant le <em>channel</em>.</p>
-<p>Plus loin, losque l'opération de convolution aura été réalisée, nous obtiendrons un tenseur <code>h' x w' x P</code> avec <code>P</code> le nombre de convolutions réalisées. <code>P</code> correspond donc au nombre de descripteurs utilisés, ce qui correspond au final au nombre de neurones présents sur la couche.</p>
+<p>Un innovation importante des Convolutional Pose Machine est le fait que la fonction de corrélation, qui permet au programme d'acquérir une vision globale du problème est apprise. Le réseau de neurones est donc libre de reconnaitre les différents membres du corps aussi bien au niveau local qu'au niveau global.</p>
+<p>Une représentation de ce réseau est visible ci-desssous.</p>
 
 </div>
 </div>
@@ -12096,7 +12134,7 @@ En effet, une image couleur de dimensions <code>h x w</code> correspond bien à 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Mathématiquement, l'opération de convolution s'écrit alors comme suit.</p>
+<p><img src="http://openresearch.ai/uploads/default/optimized/1X/18f20fd72702bd2157277019938753e79bc6b5fb_1_690x414.jpg" alt="imageCPM"></p>
 
 </div>
 </div>
@@ -12105,92 +12143,10 @@ En effet, une image couleur de dimensions <code>h x w</code> correspond bien à 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Soit $K$ un noyau 4D, dont chaque élément $K_{i,j,k,l}$ donne la connexion entre une unité du channel $i$ de la sortie avec une unité du channel $j$ de l'entrée. $k$ et $l$ désignent respectivement l'offset en ligne et en colonne entre les 2 unités concernés.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Définissons $V$ l'objet d'entrée, avec $V_{i,j,k}$ désignant l'unité du channel $i$, dans la ligne $j$ et de la colonne $k$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Soit $Z$ la sortie, de même dimension que $V$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>On obtient alors :
-$$
-Z_{i,j,k}=\sum_{l,m,n} V_{l,j+m,k+n}K_{i,l,m,n}
-$$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Il est particulièrement intéressant de remarquer que pour convolution, l'entrée consiste en une matrice <code>n x n x P</code> ou <code>n</code> désigne la taille du noyau de convolution et <code>P</code> désigne le nombre de channel du tenseur d'entrée.</p>
-<p>Par conséquent, lorsque le réseau cherche un descripteur, il le cherche à l'aide de l'ensemble des résultats de convolution de la couche précédente.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Exemple-rapide-d'impl&#233;mentation">Exemple rapide d'impl&#233;mentation<a class="anchor-link" href="#Exemple-rapide-d'impl&#233;mentation">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Nous allons ici présenter une implémentation d'une couche de convolution, en utilisant la librairie <a href=index.html >TensorFlow</a>.</p>
-<p>La déclaration d'une couche peut tenir en seulement quelques lignes, comme nous pouvons le voir ci-dessous :</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>""" Layer 1 """
-W_conv1_1 = tf.Variable(tf.truncated_normal([3, 3, 3, 64],stddev=0.02))
-b_conv1_1 = tf.Variable(tf.constant(0.0,[64])
-conv1_1 = tf.nn.conv2d(image, W_conv1_1, strides=[1, s, s, 1], padding='SAME') + b_conv1_1
-relu1_1 = tf.nn.relu(conv1_1)
-pool1 = tf.nn.max_pool(relu1_1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>La 1ère ligne définit la forme de la couche. Nous définissons alors dans l'ordre :</p>
+<p>Ce réseau est composé de 2 parties :</p>
 <ul>
-<li>la taille de la fenetre de convolution : ici <code>3x3</code> </li>
-<li>la largeur de l'entrée : ici pour <code>3</code>, pour chaque channel d'entrée</li>
-<li>la largeur de la sortie : ici <code>64</code>, on cherche donc 64 descripteurs, à l'aide d'autant de neurones.</li>
+<li>Une partie $P_{1}$ consacrée à l'étape initiale, réalisé une seule fois </li>
+<li>Une partie $P_{n}$ consacrée à la partie itérative, pouvant être répétée un nombre arbitraire de fois</li>
 </ul>
 
 </div>
@@ -12200,7 +12156,8 @@ pool1 = tf.nn.max_pool(relu1_1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], paddin
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Dans la 2ème ligne, nous définissons le nombre de biais, qui est égal au nombre de neurones, soit <code>64</code>.</p>
+<p>$P_{1}$ prend en entrée une image classique, de dimension <code>h x w x 3</code>. Cette image est analysée par un FCN classique. Ce dernier fournit donc en sortie un tenseur de dimension <code>h' x w' x P</code> où <code>P</code> est le nombre d'élèments à identifier sur l'image.
+Par conséquent, pour chaque élèment, nous disposons d'une carte de probabilité de présence sur l'image.</p>
 
 </div>
 </div>
@@ -12209,7 +12166,7 @@ pool1 = tf.nn.max_pool(relu1_1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], paddin
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Dans la 3ème ligne, nous définissons l'opération de convolution, en précisant l'image à filtrer, le filtre et les biais à utiliser.</p>
+<p>Il est important de remarquer la présence d'une fonction de coût $f_{1}$ à la fin de $P_{1}$. Cette fonction de coût permet notamment d'échapper au problème du <em>vanishing gradient</em> qui survient lorsque la taille du réseau est trop importante.</p>
 
 </div>
 </div>
@@ -12218,7 +12175,13 @@ pool1 = tf.nn.max_pool(relu1_1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], paddin
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Dans la 4ème ligne, nous définissons la fonction d'activation, ici la fonction <code>relu</code> classique.</p>
+<p>$P_{n}$ est composé des 2 branches :</p>
+<ul>
+<li>une branche qui va amener les cartes de probabilité de la partie précédente </li>
+<li>une branche qui va retraiter les images initiales
+Ces deux branches fusionnent leurs résultats. On obtient alors un tenseur mêlant information purement local et information global. Ce tenseur est alors traité par un réseau convolutionnel spécifique. La sortie est alors une carte de probabilité.</li>
+</ul>
+<p>Celle-ci peut alors à son tour participer à nourrir une nouvelle étape de l'algorithme.</p>
 
 </div>
 </div>
@@ -12227,7 +12190,7 @@ pool1 = tf.nn.max_pool(relu1_1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], paddin
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Dans la 5ème ligne, nous définissons la fonction <code>pool</code> à utiliser.</p>
+<p>Nous nous attendons qu'à chaque nouvelle étape permette à l'algorithme de gagner en compréhension. Comme toujours, il faut néanmoins veiller à ne pas faire trop d'étapes, afin de ne pas gêner les capacités de généralisation du réseau.</p>
 
 </div>
 </div>
